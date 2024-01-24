@@ -17,10 +17,4 @@ public interface ClientService {
 	void deleteClientById(Long id);
 
 	Optional<Client> getClientByEmail(String email);
-
-
-	
-
-	
-	
 }

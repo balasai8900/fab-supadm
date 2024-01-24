@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/addsupportadmin.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+    <title>FABO</title>
+</head>
+<body>
+    <div class="main-page">
+        <!-- Side bar -->
+        <div class="sidebar">
+            <div class="logo-section">
+                <img th:src="@{/images/fabo.logo.png}" alt="Your Logo">
+            </div>
+            <div class="sbbuttons">
+                <button><li><a href=addsupportadmin>Add Support Request</a></li></button>
+                <button><li><a href=supportlistadmin>View Support Requests</a></li></button>
+            </div>
+        </div>
+
+        <!-- Dashboard Home Page -->
+        <div class="section">
+            <div class="card">
+                <div class="subsec">
+                    <div class="title">Add Support Request</div>
+                    <div class="form">
+                        <form id="invoiceForm" th:action="@{/createSupportAdmin}" th:object="${addSupportAdmin}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                            <div class="user-detail">
+
+                 <div class="input-box">
+                                
+							<label for="storeName">Select Store Name:</label>
+						<select id="storeName" name="storeName" onchange="updateStoreCode(this)">
+						    <option value="">Select Store Name</option>
+						    <!-- Iterate through client entities to populate the select options -->
+						    <option th:each="client : ${clients}" th:value="${client.storeName}" th:text="${client.storeName}" th:attr="data-store-code=${client.storeCode}"></option>
+						</select>					
+                            </div>
+                                
+                            <div class="input-box">
+    							<span class="details">Store Code</span>
+    							<input type="text" id="storeCode" name="storeCode" readonly>
+							</div>
+                                <div class="input-box">
+                                    <label for="invoicedropdown">Support Request type</label>
+                                    <select id="supportRequestType" name="supportRequestType" required>
+                                        <option value="All">All</option>
+                                        <option value="Machines">Machines</option>
+                                        <option value="Washings">Washing</option>
+                                        <option value="Ironing">Ironing</option>
+                                        <option value="Printers">Printers</option>
+                                        <option value="General">General</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-box">
+                                    <span class="details">Store Number</span>
+                                    <input type="tel" placeholder="Enter Store Phone Number" th:field = "*{storeContact}" oninput="validateNumericInput(this)" required>
+                                </div> 
+                                
+                                <div class="input-box">
+                                    <span class="details">Support Request Date</span>
+                                    <input type="date" th:field="*{Date}" placeholder="Enter Invoice Date" required >
+                                </div>
+                                 <div class="input-box">
+                                    <label for="Image">Upload File</label>
+                                    <input type="file" name="file" id="invoiceImage" accept="image/*" onchange="displayFileName(this)">
+                                </div>
+                                <div class="input-box" id="issueinputbox">
+                                    <label for="details" class="details">Issue Subject</label>
+                                     <textarea id="issuesubject" name="issuesubject" placeholder=" Issue Subject" th:field = "*{issueSubject}" required></textarea>
+                                </div>
+
+                                <div class="input-box" id="Descriptionbox">
+                                    <label for="details" class="details">Issue Description</label>
+                                     <textarea id="issuedescription" name="issuedescription" placeholder=" Issue Description" th:field = "*{issueDescription}" required></textarea>
+                                </div>
+                            </div>
+                            <div class="buttons btn1">
+                                <input type="submit" value="Submit">
+                                <div class="close-button">
+                                    <button><li><a href=home>Close</a></li></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script th:inline="javascript">
+    function updateStoreCode(select) {
+        var selectedOption = select.options[select.selectedIndex];
+        var storeCode = selectedOption.getAttribute('data-store-code');
+        document.getElementById('storeCode').value = storeCode;
+    }
+</script>
+
+</body>
+</html>

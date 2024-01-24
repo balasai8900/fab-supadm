@@ -1,5 +1,8 @@
 package com.pack.fabo.entity;
 
+import java.util.Collections;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,17 +20,9 @@ public class ClientUser {
   private String phoneNumber;
   @Column(name = "concatenated_role_names")
   private String concatenatedRoleNames;
+  private List<Long> roleIds;
   
-  public ClientUser(String userName, String email, String storeCode, String storeName, String displayName,
-		String phoneNumber, String concatenatedRoleNames) {
-	this.userName = userName;
-	this.email = email;
-	this.storeCode = storeCode;
-	this.storeName = storeName;
-	this.displayName = displayName;
-	this.phoneNumber = phoneNumber;
-	this.concatenatedRoleNames = concatenatedRoleNames;
-}
+  
 
 public String getUserName() {
 	return userName;
@@ -85,6 +80,26 @@ public void setConcatenatedRoleNames(String concatenatedRoleNames) {
 	this.concatenatedRoleNames = concatenatedRoleNames;
 }
 
+public List<Long> getRoleIds() {
+    return roleIds != null ? roleIds : Collections.emptyList();
+}
+
+  public void setRoleIds(List<Long> roleIds) {
+    this.roleIds = roleIds;
+  }
+  
+  
+  
+public ClientUser(String userName, String email, String storeCode, String storeName, String displayName,
+		String phoneNumber, String concatenatedRoleNames) {
+	this.userName = userName;
+	this.email = email;
+	this.storeCode = storeCode;
+	this.storeName = storeName;
+	this.displayName = displayName;
+	this.phoneNumber = phoneNumber;
+	this.concatenatedRoleNames = concatenatedRoleNames;
+}
 
 @Override
 public String toString() {

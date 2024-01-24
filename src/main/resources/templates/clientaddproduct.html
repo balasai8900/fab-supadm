@@ -17,7 +17,7 @@
             </div>
             <div class="sbbuttons">
                 <button><li><a href="addproduct.html">Add Product Request</a></li></button>
-                <button><li><a href="clientproductview.html">View Product Requests</a></li></button>
+                <button><li><a href="clientproductlist.html">View Product Requests</a></li></button>
             </div>
         </div>
 
@@ -31,7 +31,18 @@
                             <div class="user-detail">
 
                                 <div class="input-box">
-                                    <label for="invoicedropdown">Select</label>
+                                    <label for="storeDropdown">Select Store Name</label>
+                                    <select id="storeDropdown" required>
+                                        <option value="Store1">Store 1</option>
+                                        <option value="Store2">Store 2</option>
+                                        <option value="Store3">Store 3</option>
+                                        <option value="Store4">Store 4</option>
+                                        <option value="Store5">Store 5</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-box">
+                                    <label for="invoicedropdown">Select Product Request </label>
                                     <select id="invoicedropdown" required>
                                         <option value="Chemicals">Chemicals</option>
                                         <option value="Packing Covers">Packing Covers</option>
@@ -42,29 +53,35 @@
                                 </div>
 
                                 <div class="input-box">
-                                    <span class="details">Store Code</span>
-                                    <input type="text" placeholder="Enter Store Code" required >
+                                    <span class="details">Store Phone Number</span>
+                                    <input type="tel" placeholder="Enter Store Phone Number" oninput="validateNumericInput(this)" required>
                                 </div>
-                              
+
+                               
+                               
                                 <div class="input-box">
                                     <span class="details">Subject</span>
-                                    <input type="text" placeholder="Enter Subject" required >
+                                    <textarea id="Subject" name="Subject" placeholder="Enter Subject" required></textarea>
                                 </div>
 
                                 <div class="input-box">
                                     <span class="details">Description</span>
-                                    <input type="text" placeholder="Enter Description" required >
+                                    <textarea id="Description" name="Description" placeholder="Enter Description" required></textarea>
                                 </div>
 
-                                <div class="input-box">
-                                    <span class="details">Primary Number</span>
-                                    <input type="tel" placeholder="Enter Primary Number" oninput="validateNumericInput(this)" required>
-                                </div>
+                               
 
                                 <div class="input-box">
-                                    <label for="details" class="details">Full Address</label>
-                                     <textarea id="fullAddress" name="fullAddress" placeholder="Enter Full Address" required></textarea>
+                                    <label for="details" class="details">Shipping Address</label>
+                                     <textarea id="Shippingadress" name="ShippingAddress" placeholder="Shipping Address" required></textarea>
                                 </div>
+
+                                <div class="input-box" id="input-box1">
+                                    <label for="Image">Upload File</label>
+                                    <input type="file" id="invoiceImage" accept="image/*" onchange="displayFileName(this)">
+                                </div>
+
+
                             </div>
                             <div class="buttons">
                                 <input type="submit" value="Submit">

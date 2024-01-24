@@ -1,5 +1,8 @@
 package com.pack.fabo.entity;
 
+import java.util.Collections;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -13,6 +16,7 @@ public class Admin {
 	private String phoneNumber;
 	private String displayName;
 	private String concatenatedRoleNames;
+	private List<Long> roleIds;
 	
 	@Override
 	public String toString() {
@@ -78,10 +82,25 @@ public class Admin {
 	public void setConcatenatedRoleNames(String concatenatedRoleNames) {
 		this.concatenatedRoleNames = concatenatedRoleNames;
 	}
+	
+	
+	
+
+	public List<Long> getRoleIds() {
+		return roleIds != null ? roleIds : Collections.emptyList();
+	}
+
+	public void setRoleIds(List<Long> roleIds) {
+		this.roleIds = roleIds;
+	}
+	
+	
+	
 
 	public Admin() {
 		
 	}
+
 
 	
 	

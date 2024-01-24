@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -38,53 +38,59 @@
         <div class="section">
             <div class="tableform">
                 <div class="title">
-                    <h2>Users List</h2>
+                    <h2>Client Users List</h2>
                     <div class="close-button">
                         <li><a href=home>X</a></li>
                     </div>
                 </div>
                 <div class="bar">
                     <div class="filters">
-                    <form id="filterForm">
-				    <div class="fil-1">
-				        <input type="text" placeholder="Enter StoreName" list="storeName" name="storeName">
-				        <datalist id="storeName">
-				            <option value="" disabled selected>select storeName</option>
-				            <option th:each="storeName : ${storeNames}" th:value="${storeName}" th:text="${storeName}"></option>
-				        </datalist>
-				    </div>
-				</form>
-						<form  id="filterForms">
-                        <div class="fil-2">
-                            <select id="accesses" name="accesses">
-                            <option value=""disabled selected>select accesses</option>
-                                <option value="Support">Support</option>
-                                <option value="creatives">creatives</option>
-                                <option value="products">products</option>
-                                <option value="accounts">accounts</option>
-                            </select>
-                        </div>
+                        <form id="filterForm">
+                             <div class="fil-1">
+                             <label>Select Store Code:</label>
+							    <input type="text" placeholder="Enter Store Code" list="storeCodes" name="storeCode" th:value="${selectedStoreCode}">
+							    <datalist id="storeCodes">
+							        <option value="All">All</option>
+							        <option value="" disabled selected>Select store code</option>
+							        <option th:each="code : ${storeCodes}" th:value="${code}" th:text="${code}"></option>
+							    </datalist>
+							</div>
+
                         </form>
+                        
+                        <form id="filterForms">
+					    <div class="fil-1">
+					    <label>Select Accesses:</label>
+					        <select id="accesses" name="accesses" onchange="updateFilter()" th:value="${accessesParam}">
+					            <option value="" disabled selected>select accesses</option>
+					            <option value="All">All</option>
+					            <option value="Support">Support</option>
+					            <option value="Accounts">Accounts</option>
+					            <option value="creatives">creatives</option>
+					            <option value="products">products</option>
+					        </select>
+					    </div>
+					</form>
+
                         <div class="search-container">
                             <div class="search-icon">
-                              <i class="fas fa-search"></i>
+                                <i class="fas fa-search"></i>
                             </div>
-                            <form th:action="@{faboClientUsers}" method="post">
-                             <input type="text" name="search" id="searchInput" class="search-bar" placeholder="Search">
+                            <form th:action="@{/faboClientUsers}" method="get" id="searchForm">
+                                <input type="search" name="search" id="searchInput" class="search-bar" placeholder="Search">
                             </form>
                         </div>
                     </div>
-                    
-                    
-                    
                 </div>
-                <h3>Total number of clientUsers: <span th:text="${#lists.size(clientUsers)}"></span></h3>
                 
+                
+                 <h3>Total number of clientUsers: <span th:text="${#lists.size(clientUsers)}"></span></h3>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
                                 <th>Store Code</th>
+                                <th>Store Name</th>
                                 <th>User Name</th>
                                 <th>Email</th>                               
                                 <th>Phone</th>
@@ -94,24 +100,34 @@
                         </thead>
                         <tbody id="clientsTableBody">
                           
-                            
-                            <tr th:each="clientUser : ${clientUsers}">
-                               <td th:text = "${clientUser.storeCode}"></td>
-					<td th:text = "${clientUser.userName}"></td>
-					<td th:text = "${clientUser.email}"></td>
-					<td th:text = "${clientUser.phoneNumber}"></td>
-					<td th:text="${clientUser.concatenatedRoleNames}"></td>
-					 
-					
+                             <tr th:each="clientUser : ${clientUsers}">
+                                <td th:text = "${clientUser.storeCode}"></td>
+								<td th:text = "${clientUser.storeName}"></td>
+								<td th:text = "${clientUser.userName}"></td>
+								<td th:text = "${clientUser.email}"></td>
+								<td th:text = "${clientUser.phoneNumber}"></td>
+								<td th:text="${clientUser.concatenatedRoleNames}"></td>
+								
 								<td>
-                                    <li><a th:href = "@{/Users/{userName}(userName=${clientUser.userName})}">👁️</a></li>
-                                    <li><a th:href = "@{/clientUsers/edit/{userName}(userName=${clientUser.userName})}">✏️</a></li>
-                                   
-                                      <span class="action-icon delete-icon" ><a th:href = "@{/clientUser/{email}(email=${clientUser.email})}" onclick="return confirmDelete('${clientUser.email}')">🗑️</a></span>   
+                                    <div class="action-menu">
+                                        <i class="fas fa-bars" onclick="toggleActionMenu(this)"></i>
+                                        <div class="dropdown-menu">
+                                            <a th:href = "@{/Users/{userName}(userName=${clientUser.userName})}">View</a>
+                                            <a th:href = "@{/clientUsers/edit/{userName}(userName=${clientUser.userName})}">Edit</a>
+											<a th:href = "@{/clientUser/{email}(email=${clientUser.email})}" onclick="return confirmDelete('${clientUser.email}')">Delete</a>
+											
+                                        </div>
+                                    </div>
                                 </td>
-                            </tr>
-
-
+                                
+    
+								<!--<td>
+	                                    <li><a th:href = "@{/Users/{email}(email=${clientUser.email})}">👁️</a></li>
+	                                    <li><a th:href = "@{/clientUsers/edit/{email}(email=${clientUser.email})}">✏️</a></li>
+	                                   
+	                                      <span class="action-icon delete-icon" ><a th:href = "@{/clientUser/{email}(email=${clientUser.email})}" onclick="return confirmDelete('${admin.email}')">🗑️</a></span>   
+	                               </td>  -->	
+                            </tr> 
                         </tbody>
                     </table>
                 </div>
@@ -119,6 +135,8 @@
             </div>
 
         </div>
+                
+                
         <div class="popup" id="deleteConfirmationPopup">
             <div class="card">
                 <div class="wrapper">
@@ -133,61 +151,103 @@
         </div>
     </div>
 
-    <script>
-        function openPopup(popupId) {
-            var popup = document.getElementById(popupId);
-            if (popup) {
-                popup.style.display = "block";
-            }
+  <script>
+    // Get references to select elements
+    const storeCodeInputField = document.querySelector('#filterForm input[type="text"]');
+    const accesses = document.getElementById('accesses');
+    const filterForm = document.getElementById('filterForm');
+    const filterForms = document.getElementById('filterForms'); // Make sure to use a unique ID
+
+    // Add onchange event listener to storeCodeInputField
+    storeCodeInputField.addEventListener('change', function () {
+        sessionStorage.setItem('storeCode', storeCodeInputField.value);
+        filterForm.submit(); // Submit form when storeCode input changes
+    });
+
+    // Add onchange event listener to accesses dropdown
+    accesses.addEventListener('change', function () {
+        sessionStorage.setItem('accesses', accesses.value);
+        filterForms.submit(); // Submit form when accesses selection changes
+    });
+
+    // Function to confirm the delete action
+    function confirmDelete(email) {
+        var confirmation = confirm("Are you sure you want to delete this Client User?");
+        if (confirmation) {
+            window.location.href = `/clientUser/${email}`;
+        } else {
+            alert("Deletion canceled.");
+            return false;
+        }
+    }
+
+    // Function to populate filter form fields with stored values
+    function populateFilterForm() {
+        const storedStoreCode = sessionStorage.getItem('storeCode');
+        const storedAccesses = sessionStorage.getItem('accesses');
+
+        // Set storeCode input value
+        storeCodeInputField.value = storedStoreCode || '';
+
+        // Set accesses dropdown value
+        accesses.value = storedAccesses || '';
+    }
+
+    // Call the function when the page loads
+    populateFilterForm();
+</script>
+
+
+
+   <script>
+    // Add this script to handle the search functionality
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchForm = document.getElementById("searchForm");
+        const searchInput = document.getElementById("searchInput");
+
+        function searchClients() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const tableRows = document.querySelectorAll("#clientsTableBody tr");
+
+            tableRows.forEach(function (row) {
+                const clientName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+                const clientCity = row.querySelector("td:nth-child(4)").textContent.toLowerCase();
+                const phoneNumber = row.querySelector("td:nth-child(5)").textContent.toLowerCase();
+                const accesses = row.querySelector("td:nth-child(6)").textContent.toLowerCase();
+
+                if (clientName.includes(searchTerm) || clientCity.includes(searchTerm) || phoneNumber.includes(searchTerm) || accesses.includes(searchTerm)) {
+                    row.style.display = "table-row";
+                } else {
+                    row.style.display = "none";
+                }
+            });
         }
 
-        function showDeleteConfirmationPopup() {
-  var deleteConfirmationPopup = document.getElementById(
-    "deleteConfirmationPopup");
-  deleteConfirmationPopup.style.display = "block";
-  document.body.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-}
-
-function cancelDelete() {
-  closeDeleteConfirmationPopup();
-}
-
-function closeDeleteConfirmationPopup() {
-  var deleteConfirmationPopup = document.getElementById(
-    "deleteConfirmationPopup"
-  );
-  deleteConfirmationPopup.style.display = "none";
-  document.body.style.backgroundColor = "";
-}
-
-    </script>
-    <script>
-        // Get references to select elements
-     const storeNameInputField = document.querySelector('#filterForm input[type="text"]');
-     storeNameInputField.addEventListener('change', function() {
-         filterForm.submit(); // Submit form when state input changes
-     });
-        
-        const accesses = document.getElementById('accesses');
-        const filterForms = document.getElementById('filterForms');
-
-        // Add onchange event listener to accesses dropdown
-        accesses.addEventListener('change', function() {
-            filterForms.submit(); // Submit form when accesses selection changes
-        });
-
-        
-        function confirmDelete(email) {
-            var confirmation = confirm("Are you sure you want to delete this admin?");
-            if (confirmation) {
-                window.location.href = `/clientUser/${email}`;
-            } else {
-                alert("Deletion canceled.");
-                return false;
-            }
+        // Add event listener for form submission
+        if (searchForm) {
+            searchForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                searchClients();
+            });
         }
-    </script>
-    
+    });
+
+    // At the end of your script
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Set storeName input value
+        storeCodeInputField.value = urlParams.get('storeCode') || '';
+
+        // Set accesses dropdown value
+        accesses.value = urlParams.get('accesses') || '';
+    });
+
+</script>
+
+
+
+
     
 </body>
 </html>

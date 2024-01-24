@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/supportlistadmin.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+    <title>FABO</title>
+</head>
+<body>
+    <div class="main-page">
+      
+
+
+        <div class="section">
+            <div class="tableform">
+                <div class="title">
+                    <h2>Support Request List</h2>
+                    <div class="close-button">
+                        <li><a href=home>X</a></li>
+                    </div>
+                </div>
+                <div class="bar">
+                    <div class="filters">
+                        <div class="fil-1">
+                            <label for="cityDropdown">Select State:</label>
+                            <select id="stateDropdown">
+                                <option value="All">All</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Uttarakhand">Uttarakhand</option>
+                                <option value="West Bengal">West Bengal</option>
+                            </select>
+                            
+                        </div>
+
+                        <div class="fil-2">
+                            <label for="cityDropdown">Select a City:</label>
+                            <select id="cityDropdown">
+                                <option value="All">All</option>
+                                <option value="Hyderabad"></option>
+                                <!-- Cities will be dynamically populated here -->
+                            </select>
+                        </div>
+                        
+			<form id="filterForms" method="GET" th:action="@{/viewsupport}">
+        <select id="invoicedropdown" name="invoicedropdown" required>
+            <option value="" disabled selected>Select Request Type</option>
+            <option value="All" th:selected="${selectedType == 'All'}">All</option>
+            <option value="Machines" th:selected="${selectedType == 'Machines'}">Machines</option>
+            <option value="Washing" th:selected="${selectedType == 'Washing'}">Washing</option>
+            <option value="Ironing" th:selected="${selectedType == 'Ironing'}">Ironing</option>
+            <option value="Printers" th:selected="${selectedType == 'Printers'}">Printers</option>
+            <option value="General" th:selected="${selectedType == 'General'}">General</option>
+            <!-- Add other options -->
+        </select>
+    </form>
+
+                       
+                        <form id="filterForm" method="GET" th:action="@{/viewsupport}">
+                        <div class="fil-5">
+                            <label for="statusDropdown">Select Status:</label>
+                            <select id="statusDropdown" name="statusDropdown" required>
+                            <option value="" disabled selected>Select Status Type</option>
+                                <option value="All" th:selected="${selected == 'All'}">All</option>
+                                <option value="New" th:selected="${selected == 'New'}">New</option>
+                                <option value="In-Progress" th:selected="${selected == 'In-Progress'}">In-Progress</option>
+                                <option value="Closed" th:selected="${selected == 'Closed'}">Closed</option>
+                                <!-- Add other status options as needed -->
+                            </select>
+                        </div>
+                        </form>
+
+
+					<div class="search-container">
+					    <div class="search-icon">
+					        <i class="fas fa-search"></i>
+					    </div>
+					    <form th:action="@{/viewsupport}" method="get" id="searchForm">
+					        <input type="text" name="searchTerm" class="search-bar" placeholder="Search" id="searchInput">
+					    </form>
+					</div>
+                       
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Store Name</th>
+                                <th>Store Phone</th>
+                                <th>Support Request Type</th>
+                                <th>Issue Subject</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                          
+                             <tr th:each="addSupportAdmin : ${addSupportAdmins}">      
+                                <td th:text = "${addSupportAdmin.Date}"></td>
+					<td th:text = "${addSupportAdmin.storeName}"></td>
+					<td th:text = "${addSupportAdmin.storeContact}"></td>
+					<td th:text = "${addSupportAdmin.supportRequestType}"></td>
+					<td th:text="${addSupportAdmin.issueSubject}"></td>
+                     <td th:text="${addSupportAdmin.status}"></td>
+					         
+                                <td>
+                                    <li title="View"><a th:href = "@{/viewsupportadmindts/{id}(id=${addSupportAdmin.id})}"><i class="fa-regular fa-eye"></i></a></li>
+								                                  
+								  <li title="Comment">
+                                        <a th:href="@{/viewsupportadmindts/comment/{id} (id=${addSupportAdmin.id})}"><i class="fa-regular fa-comment"></i></a>
+                                    </li> 
+                                    
+                                      <li title="Image"><a th:href="@{/supportlistimageadmin/{id} (id=${addSupportAdmin.id})}" ><i class="fa-regular fa-image"></i></a></li>
+                                    
+                                    <li title="Delete"><a th:href="@{/deleterequest/{id}(id=${addSupportAdmin.id})}" onclick="return confirmDelete('${addSupportAdmin.id}')"><i class="fa-solid fa-trash"></i></a></li>
+                                    
+                                </td>
+                            </tr>
+
+                          
+                        </tbody>
+                    </table>
+                </div>
+ 
+            </div>
+
+        </div>
+
+        <div class="popup" id="deleteConfirmationPopup">
+            <div class="card">
+                <div class="wrapper">
+                    
+                    <p>Are You Sure To Delete??</p>
+                    <div class="button-container">
+                        <button onclick="confirmDelete()">Yes</button>
+                        <button onclick="cancelDelete()">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <form th:action="@{/saveComments}" th:object="${comments}" method="POST">
+    <div class="comment-popup" id="commentPopup">
+    <h2>Add Comment</h2>
+    <div>
+       
+        <input type="radio" id="clientVisibleYes" name="clientVisible" value="Yes" />
+        <label for="clientVisibleYes">Internal Comments</label>
+        <input type="radio" id="clientVisibleNo" name="clientVisible" value="No" />
+        <label for="clientVisibleNo">External Comments</label>
+    </div>
+    <textarea id="commentText" name="commentText" placeholder="Enter your comment here"></textarea>
+
+    <div>
+        <input type="radio" id="markAsClosed" name="requestStatus" value = "Closed" />
+        <label for="markAsClosed">Mark This Support Request as Closed.</label>
+    </div>
+
+    <div>
+        <input type="radio" id="markAsInProgress" name="requestStatus" value = "In-Progress"/>
+        <label for="markAsInProgress">Mark This Support Request as In-Progress.</label>
+    </div>
+
+    <div>
+        <input type="radio" id="markAsReOpen" name="requestStatus" value = "Re-open"/>
+        <label for="markAsReOpen">Mark This Support Request as Re-Open.</label>
+    </div>
+
+    <button type="submit" >Send</button>
+    <button onclick="closeCommentPopup()">Close</button>
+    </div>
+    </form>
+    
+    <script>
+       
+    
+        var dropdown = document.getElementById("stateDropdown");
+        dropdown.addEventListener("change", function () {
+            var selectedState = dropdown.options[dropdown.selectedIndex].value;
+            console.log("Selected State: " + selectedState);
+            populateCities(); // Add this line to update cities dropdown
+            // You can perform further actions with the selected state
+        });
+    
+        function filterStates() {
+            var input = document.getElementById("stateInput");
+            var filter = input.value.toUpperCase();
+            var dropdown = document.getElementById("stateDropdown");
+            var options = dropdown.getElementsByTagName("option");
+    
+            for (var i = 0; i < options.length; i++) {
+                var option = options[i];
+                option.style.display = option.value.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+            }
+        }
+    
+        var citiesByState = {
+            "Andhra Pradesh": ["City1_AP", "City2_AP", "City3_AP"],
+            "Arunachal Pradesh": ["City1_AR", "City2_AR", "City3_AR"],
+            "Assam": ["City1_AS", "City2_AS", "City3_AS"],
+            "Bihar": ["City1_AS", "City2_AS", "City3_AS"],
+            "Telangana": ["City1_AS", "City2_AS", "Hyderabad"]
+            // Add other states and their cities here
+        };
+    
+        function populateCities() {
+            var stateDropdown = document.getElementById("stateDropdown");
+            var cityDropdown = document.getElementById("cityDropdown");
+            var selectedState = stateDropdown.value;
+    
+            // Clear existing options
+            cityDropdown.innerHTML = "";
+    
+            // Populate cities based on the selected state
+            if (citiesByState[selectedState]) {
+                citiesByState[selectedState].forEach(function (city) {
+                    var option = document.createElement("option");
+                    option.value = city;
+                    option.text = city;
+                    cityDropdown.add(option);
+                });
+            }
+        }
+
+        function openCommentPopup() {
+            var commentPopup = document.getElementById("commentPopup");
+            var overlay = document.getElementById("overlay");
+            commentPopup.style.display = "block";
+            overlay.style.display = "block";
+        }
+
+        function closeCommentPopup() {
+            var commentPopup = document.getElementById("commentPopup");
+            var overlay = document.getElementById("overlay");
+            commentPopup.style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        function sendComment() {
+            // Your logic to send the comment
+            closeCommentPopup();
+        }
+        
+        function confirmDelete(email) {
+            var confirmation = confirm("Are you sure you want to delete this admin?");
+            if (confirmation) {
+                window.location.href = `/deleterequest/${id}`;
+            } else {
+                alert("Deletion canceled.");
+                return false;
+            }
+        }
+        
+        const invoicedropdown = document.getElementById('invoicedropdown');
+        const filterForms = document.getElementById('filterForms');
+
+        // Add onchange event listener to accesses dropdown
+        invoicedropdown.addEventListener('change', function() {
+            filterForms.submit(); // Submit form when accesses selection changes
+        });
+
+        const statusDropdown = document.getElementById('statusDropdown');
+        const filterForm = document.getElementById('filterForm');
+
+        // Add onchange event listener to accesses dropdown
+        statusDropdown.addEventListener('change', function() {
+            filterForm.submit(); // Submit form when accesses selection changes
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('searchInput').addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    document.getElementById('searchForm').submit();
+                }
+            });
+        });
+
+
+    </script>
+
+    <!-- Your other HTML content -->
+
+
+    
+</body>
+</html>

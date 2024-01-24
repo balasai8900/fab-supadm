@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="clientsupportlist.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+    <title>FABO</title>
+</head>
+<body>
+    <div class="main-page">
+      
+
+
+        <div class="section">
+            <div class="tableform">
+                <div class="title">
+                    <h2>Product Request List</h2>
+                    <div class="close-button">
+                        <li><a href="home.html">X</a></li>
+                    </div>
+                </div>
+                <div class="bar">
+                    <div class="filters">
+                        
+
+                        <div class="calender">
+                            <label for="">Select Date</label>
+                            <input type="date">
+                        </div>
+
+                        <div class="fil-3">
+                            <label for="invoicedropdown">Select Product Type:</label>
+                            <select id="invoicedropdown" required>
+                                <option value="Royalty">Machines</option>
+                                <option value="Chemicals">Washing</option>
+                                <option value="Ironing">Ironing</option>
+                                <option value="Printers">Printers</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+
+                       
+                        
+                        <div class="fil-5">
+                            <label for="statusDropdown">Select Status:</label>
+                            <select id="statusDropdown" required>
+                                <option value="All">All</option>
+                                <option value="New">New</option>
+                                <option value="In-Progress">In-Progress</option>
+                                <option value="Closed">Closed</option>
+
+                                <!-- Add other status options as needed -->
+                            </select>
+                        </div>
+
+
+                        <div class="search-container">
+                            <div class="search-icon">
+                              <i class="fas fa-search"></i>
+                            </div>
+                            <input type="text" class="search-bar" placeholder="Search">
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                
+                                
+                                <th>Product Request Type</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                          
+                            <tr>                 
+                                <td>Collar Cufs</td>
+                                <td>Required Collar Cufs</td>
+                                <td>New</td>
+                                <td>
+                                    <li title="View"><a href="clientviewproductdts.html"><i class="fa-regular fa-eye"></i></a></li>
+                                    <li title="Edit"><a href="clienteditproductrequests.html"><i class="fa-regular fa-edit"></i></a></li>
+                                    <li title="Comments"><a href="javascript:void(0);" onclick="openCommentPopup()">
+                                        <i class="fa-regular fa-comment"></i>
+                                    </a></li>
+                                    <li title="Close Request"><a href="javascript:void(0);"onclick="openCommentPopup2()"><i class="fa-regular fa-window-close"></i></a></li>
+                                    
+                                    <li title="Delete"><a href=""><i class="fa-solid fa-trash"></i></a></li>
+                                    
+                                </td>
+                            </tr>
+
+                            <tr>                 
+                                <td>Collar Cufs</td>
+                                <td>Required Collar Cufs</td>
+                                <td>New</td>
+                                <td>
+                                    <li title="View"><a href="clientviewproductdts.html"><i class="fa-regular fa-eye"></i></a></li>
+                                    <li title="Edit"><a href="clienteditproductrequests.html"><i class="fa-regular fa-edit"></i></a></li>
+                                    <li title="Comments"><a href="javascript:void(0);" onclick="openCommentPopup()">
+                                        <i class="fa-regular fa-comment"></i>
+                                    </a></li>
+                                    <li title="Close Request"><a href="javascript:void(0);"onclick="openCommentPopup2()"><i class="fa-regular fa-window-close"></i></a></li>
+                                    
+                                    <li title="Delete"><a href=""><i class="fa-solid fa-trash"></i></a></li>
+                                    
+                                </td>
+                            </tr>
+
+                           
+
+                            
+
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="overlay" id="overlay"></div>
+        <div class="comment-popup" id="commentPopup">
+            <h2>Add Comment</h2>
+            <textarea id="commentText" placeholder="Enter your comment here"></textarea>
+           
+            <button onclick="sendComment()">Send</button>
+            <button onclick="closeCommentPopup()">Close</button>
+        </div>
+
+
+        <div class="overlay" id="overlay2"></div>
+        <div class="comment-popup" id="commentPopup2">
+            <h2>Close Product Request</h2>
+            <textarea id="commentText" placeholder="Enter your comment here"></textarea>
+            <div>
+                <input type="checkbox" id="markAsPaid" />
+                <label for="markAsPaid">Mark as Closed</label>
+            </div>
+           
+            <button onclick="sendComment()">Send</button>
+            <button onclick="closeCommentPopup2()">Close</button>
+        </div>
+    </div>
+
+
+    <script>
+      
+    
+       
+         
+        function openCommentPopup() {
+            var commentPopup = document.getElementById("commentPopup");
+            var overlay = document.getElementById("overlay");
+            commentPopup.style.display = "block";
+            overlay.style.display = "block";
+        }
+
+        function closeCommentPopup() {
+            var commentPopup = document.getElementById("commentPopup");
+            var overlay = document.getElementById("overlay");
+            commentPopup.style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        function sendComment() {
+            // Your logic to send the comment
+            closeCommentPopup();
+        }
+
+
+
+        function openCommentPopup2() {
+            var commentPopup = document.getElementById("commentPopup2");
+            var overlay = document.getElementById("overlay2");
+            commentPopup.style.display = "block";
+            overlay.style.display = "block";
+        }
+
+        function closeCommentPopup2() {
+            var commentPopup = document.getElementById("commentPopup2");
+            var overlay = document.getElementById("overlay2");
+            commentPopup.style.display = "none";
+            overlay.style.display = "none";
+        }
+
+        function sendComment() {
+            // Your logic to send the comment
+            closeCommentPopup();
+        }
+    </script>
+</body>
+</html>

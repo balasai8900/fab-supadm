@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.pack.fabo.controller.ClientUserController;
 import com.pack.fabo.entity.ClientUser;
 import com.pack.fabo.repository.ClientUserRepository;
 import com.pack.fabo.repository.RolesTableRepository;
@@ -17,7 +20,7 @@ public class RolesTableServiceImpl implements RolesTableService{
 	
 	private RolesTableRepository rolesTableRepository;
 
-
+	private static final Logger log = LoggerFactory.getLogger(ClientUserController.class);
 
 public RolesTableServiceImpl(RolesTableRepository rolesTableRepository) {
 		this.rolesTableRepository = rolesTableRepository;
@@ -28,6 +31,7 @@ public String getConcatenatedRoleNamesByEmail(String email, List<Long> roleIds) 
     List<String> roleNames = new ArrayList<>();
     for (Long roleId : roleIds) {
         String roleName = rolesTableRepository.findRoleNameById(roleId);
+        log.info("Role ID: {}, Role Name: {}", roleId, roleName);
         if (roleName != null) {
             roleNames.add(roleName);
         }
